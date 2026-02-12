@@ -8,9 +8,9 @@
 import Foundation
 
 enum MealTime: String, CaseIterable, Identifiable  { //String; each case is assigned a string value the same as case name
-    case breakfast                                   //CaseIterable; allows us to get all cases as a list
+    case dinner                                   //CaseIterable; allows us to get all cases as a list
     case lunch                                       //Identifiable; assigns each case an id for looping or to be used in picker UI
-    case dinner
+    case breakfast
     case snack
     
     var id: String { rawValue } //Assigns each enum case an id. Required to conform to Identifiable protocol

@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct MainView: View {
-    
     var body: some View {
         VStack {
             CalorieView()
-            
             MealListView()
         }
         .padding()
@@ -21,5 +19,4 @@ struct MainView: View {
 
 #Preview {
     MainView()
-
 }

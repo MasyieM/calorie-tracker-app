@@ -11,10 +11,7 @@ import Combine
 
 class MealDataStore: ObservableObject {
     
-    @Published var mealEntries: [MealEntry] = [MealEntry(food: "Eggs", calories: 200, mealTime: .breakfast), //full of samples for view building purposes
-                                               MealEntry(food: "Toast", calories: 150, mealTime: .breakfast),
-                                               MealEntry(food: "Chicken Rice", calories: 600, mealTime: .lunch),
-                                               MealEntry(food: "Pasta", calories: 500, mealTime: .dinner)]
+    @Published var mealEntries: [MealEntry] = []
     
     func addMealEntry(food: String, calories: Int, mealTime: MealTime){
         let mealEntry = MealEntry(food: food, calories: calories, mealTime: mealTime) //with each add function, instances the struct
@@ -41,5 +38,17 @@ class MealDataStore: ObservableObject {
         } else {
             print("Error: Entry not found!")
         }
+    }
+    
+    static func makePreview() -> MealDataStore {
+        let sampleDatabase = MealDataStore()
+        sampleDatabase.mealEntries = [
+                MealEntry(food: "Oatmeal", calories: 250, mealTime: .breakfast),
+                MealEntry(food: "Chicken Salad", calories: 400, mealTime: .lunch),
+                MealEntry(food: "Apple", calories: 80, mealTime: .snack),
+                MealEntry(food: "Steak & Veggies", calories: 600, mealTime: .dinner),
+                MealEntry(food: "Yogurt", calories: 120, mealTime: .snack)
+        ]
+        return sampleDatabase
     }
 }

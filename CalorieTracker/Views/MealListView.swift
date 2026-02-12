@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct MealListView: View {
-    @StateObject private var mealDataStore = MealDataStore()
+    @StateObject var mealDataStore =  MealDataStore()
     
     var body: some View {
         List {
-            ForEach(MealTime.allCases) { mealTime in
+            ForEach(MealTime.allCases, id: \.self) { mealTime in
                 let mealsForTime = mealDataStore.mealEntries.filter { $0.mealTime == mealTime }
                 
-                if !mealsForTime.isEmpty {
-                    Section(header: Text(mealTime.rawValue.capitalized)) {
+                Section(header: Text(mealTime.rawValue.capitalized)) {
+                    if mealsForTime.isEmpty{
+                        Text("+ Add")
+                    } else {
                         ForEach(mealsForTime) { entry in
                             HStack {
                                 Text(entry.food)
@@ -26,6 +28,7 @@ struct MealListView: View {
                                     .foregroundColor(.gray)
                             }
                         }
+                        Text("Total Calories: ")
                     }
                 }
             }
@@ -34,5 +37,5 @@ struct MealListView: View {
 }
 
 #Preview {
-    MealListView()
+    MealListView(mealDataStore: MealDataStore.makePreview())
 }
