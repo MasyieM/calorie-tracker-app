@@ -9,29 +9,60 @@ import SwiftUI
 
 struct MealListView: View {
     @StateObject var mealDataStore =  MealDataStore()
+    @State private var showAddMealView: Bool = false
     
     var body: some View {
-        List {
-            ForEach(MealTime.allCases, id: \.self) { mealTime in
-                let mealsForTime = mealDataStore.mealEntries.filter { $0.mealTime == mealTime }
-                
-                Section(header: Text(mealTime.rawValue.capitalized)) {
-                    if mealsForTime.isEmpty{
-                        Text("+ Add")
-                    } else {
-                        ForEach(mealsForTime) { entry in
+        ZStack (alignment: .top) {
+            List {
+                ForEach(MealTime.allCases.filter { $0 != .none }) { mealTime in
+                    let mealsForTime = mealDataStore.mealEntries.filter { $0.mealTime == mealTime }
+                    
+                    Section(header: Text(mealTime.rawValue.capitalized)) {
+                        if mealsForTime.isEmpty{
+                             Text("No food added")
+                                .foregroundColor(Color.black.opacity(0.6))
+                                .italic()
+                        } else {
+                            ForEach(mealsForTime) { entry in
+                                HStack {
+                                    Text(entry.food)
+                                    Spacer()
+                                    Text("\(entry.calories) cal")
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
+                                }
+                            }
                             HStack {
-                                Text(entry.food)
+                                Text("Total Calories: ")
                                 Spacer()
-                                Text("\(entry.calories) cal")
+                                Text("total cal here")
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }
                         }
-                        Text("Total Calories: ")
                     }
                 }
             }
+            .padding(.top, 60)
+            .sheet(isPresented: $showAddMealView) {
+                AddMealView(mealDataStore: mealDataStore)
+            }
+            HStack {
+                Text("Meals")
+                    .font(.title2)
+                    .bold()
+                Spacer()
+                Button {
+                    showAddMealView = true
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.title2)
+                }
+            }
+            .frame(height: 30)
+            .padding()
+            .background(Color.white.opacity(0.9))
+
         }
     }
 }

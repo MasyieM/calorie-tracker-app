@@ -46,7 +46,6 @@ class MealDataStore: ObservableObject {
                 MealEntry(food: "Oatmeal", calories: 250, mealTime: .breakfast),
                 MealEntry(food: "Chicken Salad", calories: 400, mealTime: .lunch),
                 MealEntry(food: "Apple", calories: 80, mealTime: .snack),
-                MealEntry(food: "Steak & Veggies", calories: 600, mealTime: .dinner),
                 MealEntry(food: "Yogurt", calories: 120, mealTime: .snack)
         ]
         return sampleDatabase
