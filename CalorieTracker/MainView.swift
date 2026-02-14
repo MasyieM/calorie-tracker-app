@@ -13,7 +13,7 @@ struct MainView: View {
             CalorieView()
             MealListView()
         }
-        .padding()
+        .padding(.top, 30)
     }
 }
 
