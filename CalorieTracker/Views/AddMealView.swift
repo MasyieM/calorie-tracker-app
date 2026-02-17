@@ -15,15 +15,17 @@ struct AddMealView: View {
     @State var mealTimeSelection: MealTime = .none
     @State var foodInput: String = ""
     @State var caloriesInput: Int?
-    @Environment(\.dismiss) private var dismiss
     @FocusState private var focusedField: Field?
+    var mealToEdit: MealEntry?
+    @Binding var isAddMealViewPresented: Bool
     
     var body: some View {
         VStack {
             HStack {
                 Spacer()
+//-------------------------------- X BUTTON --------------------------------//
                 Button {
-                    dismiss()
+                    isAddMealViewPresented = false
                 } label: {
                     Image(systemName: "xmark")
                         .font(.title2)
@@ -31,6 +33,7 @@ struct AddMealView: View {
                 }
             }
             .padding(.bottom, 20)
+//-------------------------------- MEAL PICKER --------------------------------//
             HStack {
                 Text("Meal time:")
                     .bold()
@@ -46,6 +49,7 @@ struct AddMealView: View {
             .padding(.bottom, 20)
             
             VStack {
+//-------------------------------- FOOD INPUT --------------------------------//
                 VStack {
                     Text("Food")
                         .bold()
@@ -59,6 +63,7 @@ struct AddMealView: View {
                         .frame(width: 300)
                 }
                 .padding(.bottom, 20)
+//-------------------------------- CALORIES INPUT --------------------------------//
                 VStack {
                     Text("Calories")
                         .bold()
@@ -74,9 +79,42 @@ struct AddMealView: View {
                 }
             }
             .padding()
+//-------------------------------- SAVE BUTTON --------------------------------//
             Button {
-                mealDataStore.addMealEntry(food: foodInput, calories: caloriesInput ?? 0, mealTime: mealTimeSelection)
-                dismiss()
+                
+                guard
+                    !foodInput.isEmpty && mealTimeSelection != .none && caloriesInput! > 0,
+                    let calories = caloriesInput
+                else { return }
+                
+                if let existingMeal = mealToEdit {
+                    mealDataStore.editMealEntry(
+                        id: existingMeal.id,
+                        newFood: foodInput,
+                        newCalories: calories,
+                        newMealTime: mealTimeSelection
+                    )
+                    
+                    mealTimeSelection = .none
+                    foodInput = ""
+                    caloriesInput = nil
+                    
+                } else {
+                    
+                    mealDataStore.addMealEntry(
+                        food: foodInput,
+                        calories: calories,
+                        mealTime: mealTimeSelection
+                    )
+                    
+                    mealTimeSelection = .none
+                    foodInput = ""
+                    caloriesInput = nil
+                }
+                
+                isAddMealViewPresented = false
+
+                
             } label: {
                 Text("Save")
                     .foregroundStyle(Color.white)
@@ -87,9 +125,19 @@ struct AddMealView: View {
             }
         }
         .padding()
+        .onAppear {
+            if let meal = mealToEdit {
+                foodInput = meal.food
+                caloriesInput = meal.calories
+                mealTimeSelection = meal.mealTime
+            }
+        }
     }
 }
-
 #Preview {
-    AddMealView()
+    AddMealView(
+        mealDataStore: MealDataStore(),
+        mealToEdit: nil,
+        isAddMealViewPresented: .constant(true)
+    )
 }

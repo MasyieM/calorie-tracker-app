@@ -10,9 +10,11 @@ import SwiftUI
 struct MealListView: View {
     @StateObject var mealDataStore =  MealDataStore()
     @State private var showAddMealView: Bool = false
+    @State private var mealToEditData: MealEntry? = nil
     
     var body: some View {
         ZStack (alignment: .top) {
+//-------------------------------- LIST --------------------------------//
             List {
                 ForEach(MealTime.allCases.filter { $0 != .none }) { mealTime in
                     let mealsForTime = mealDataStore.mealEntries.filter { $0.mealTime == mealTime }
@@ -31,7 +33,26 @@ struct MealListView: View {
                                         .font(.subheadline)
                                         .foregroundColor(.gray)
                                 }
+//----------------------------- LIST ONSWIPE ACTIONS -----------------------------//
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+//-------------------------------- DELETE BUTTON --------------------------------//
+                                    Button {
+                                        mealDataStore.deleteMealEntry(id: entry.id)
+                                    } label: {
+                                        Label("", systemImage: "trash")
+                                    }
+                                    .tint(.blue)
+//-------------------------------- EDIT BUTTON --------------------------------//
+                                    Button {
+                                        mealToEditData = entry
+                                        showAddMealView = true
+                                    } label: {
+                                        Label("", systemImage: "pencil")
+                                    }
+                                    .tint(.orange)
+                                }
                             }
+//-------------------------------- TOTAL CALORIES --------------------------------//
                             HStack {
                                 Text("Total Calories: ")
                                 Spacer()
@@ -44,14 +65,13 @@ struct MealListView: View {
                 }
             }
             .padding(.top, 60)
-            .sheet(isPresented: $showAddMealView) {
-                AddMealView(mealDataStore: mealDataStore)
-            }
+//-------------------------------- CUSTOM TOP BAR --------------------------------//
             HStack {
                 Text("Meals")
                     .font(.title2)
                     .bold()
                 Spacer()
+//-------------------------------- ADD MEAL BUTTON --------------------------------//
                 Button {
                     showAddMealView = true
                 } label: {
@@ -62,7 +82,28 @@ struct MealListView: View {
             .frame(height: 30)
             .padding()
             .background(Color.white.opacity(0.9))
-
+            
+//------------------------------ ADD MEAL VIEW TOGGLE ------------------------------//
+            if showAddMealView {
+                
+                ZStack {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                        .transition(.opacity)
+                    
+                    AddMealView(
+                        mealDataStore: mealDataStore,
+                        mealToEdit: mealToEditData,
+                        isAddMealViewPresented: $showAddMealView
+                    )
+                    .frame(width: 350)
+                    .background(Color.white)
+                    .cornerRadius(15)
+                    .shadow(radius: 10)
+                    .transition(.scale.combined(with: .opacity))
+                    .zIndex(1)
+                }
+            }
         }
     }
 }
