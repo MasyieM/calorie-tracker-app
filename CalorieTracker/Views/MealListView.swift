@@ -73,6 +73,7 @@ struct MealListView: View {
                 Spacer()
 //-------------------------------- ADD MEAL BUTTON --------------------------------//
                 Button {
+                    mealToEditData = nil
                     showAddMealView = true
                 } label: {
                     Image(systemName: "plus")
@@ -83,14 +84,10 @@ struct MealListView: View {
             .padding()
             .background(Color.white.opacity(0.9))
             
-//------------------------------ ADD MEAL VIEW TOGGLE ------------------------------//
+//------------------------------ ADD MEAL VIEW OVERLAY ------------------------------//
             if showAddMealView {
                 
                 ZStack {
-                    Color.black.opacity(0.4)
-                        .ignoresSafeArea()
-                        .transition(.opacity)
-                    
                     AddMealView(
                         mealDataStore: mealDataStore,
                         mealToEdit: mealToEditData,

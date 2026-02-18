@@ -10,7 +10,7 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
         VStack {
-            CalorieView()
+            CalorieView(mealDataStore: MealDataStore())
             MealListView()
         }
         .padding(.top, 30)

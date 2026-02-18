@@ -11,7 +11,7 @@ struct AddMealView: View {
     
     enum Field { case food, calories }
     
-    @StateObject var mealDataStore =  MealDataStore()
+    @StateObject var mealDataStore = MealDataStore()
     @State var mealTimeSelection: MealTime = .none
     @State var foodInput: String = ""
     @State var caloriesInput: Int?
@@ -83,8 +83,10 @@ struct AddMealView: View {
             Button {
                 
                 guard
-                    !foodInput.isEmpty && mealTimeSelection != .none && caloriesInput! > 0,
-                    let calories = caloriesInput
+                    !foodInput.isEmpty,
+                    mealTimeSelection != .none,
+                    let calories = caloriesInput,
+                    calories > 0
                 else { return }
                 
                 if let existingMeal = mealToEdit {
@@ -94,11 +96,6 @@ struct AddMealView: View {
                         newCalories: calories,
                         newMealTime: mealTimeSelection
                     )
-                    
-                    mealTimeSelection = .none
-                    foodInput = ""
-                    caloriesInput = nil
-                    
                 } else {
                     
                     mealDataStore.addMealEntry(
@@ -106,10 +103,6 @@ struct AddMealView: View {
                         calories: calories,
                         mealTime: mealTimeSelection
                     )
-                    
-                    mealTimeSelection = .none
-                    foodInput = ""
-                    caloriesInput = nil
                 }
                 
                 isAddMealViewPresented = false
@@ -130,6 +123,10 @@ struct AddMealView: View {
                 foodInput = meal.food
                 caloriesInput = meal.calories
                 mealTimeSelection = meal.mealTime
+            } else {
+                foodInput = ""
+                caloriesInput = nil
+                mealTimeSelection = .none
             }
         }
     }
