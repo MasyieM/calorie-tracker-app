@@ -10,7 +10,8 @@ import SwiftUI
 struct CalorieView: View {
     
     @StateObject var mealDataStore: MealDataStore
-    @State private var showCaloriesSetView: Bool = false
+    @Binding var showCaloriesSetView: Bool
+    
     var totalCalories: Int = 1000
     var calorieBalance: Int = 200
     
@@ -49,26 +50,13 @@ struct CalorieView: View {
                     alignment: .topTrailing
                 )
             }
-//------------------------------ CALORIES SET VIEW OVERLAY ------------------------------//
-                        if showCaloriesSetView {
-                            
-                            ZStack {
-                                CaloriesSetView(
-                                    mealDataStore: mealDataStore,
-                                    isCaloriesSetViewPresented: $showCaloriesSetView
-                                )
-                                .frame(width: 350, height: 160)
-                                .background(Color.white)
-                                .cornerRadius(15)
-                                .shadow(radius: 10)
-                                .transition(.scale.combined(with: .opacity))
-                                .zIndex(1)
-                            }
-                        }
         }
     }
 }
 
 #Preview {
-    CalorieView(mealDataStore: MealDataStore.makePreview())
+    CalorieView(
+        mealDataStore: MealDataStore.makePreview(),
+        showCaloriesSetView: .constant(false)
+    )
 }

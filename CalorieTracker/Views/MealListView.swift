@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MealListView: View {
     @StateObject var mealDataStore =  MealDataStore()
-    @State private var showAddMealView: Bool = false
+    @Binding var showAddMealView: Bool
     @State private var mealToEditData: MealEntry? = nil
     
     var body: some View {
@@ -83,28 +83,13 @@ struct MealListView: View {
             .frame(height: 30)
             .padding()
             .background(Color.white.opacity(0.9))
-            
-//------------------------------ ADD MEAL VIEW OVERLAY ------------------------------//
-            if showAddMealView {
-                
-                ZStack {
-                    AddMealView(
-                        mealDataStore: mealDataStore,
-                        mealToEdit: mealToEditData,
-                        isAddMealViewPresented: $showAddMealView
-                    )
-                    .frame(width: 350)
-                    .background(Color.white)
-                    .cornerRadius(15)
-                    .shadow(radius: 10)
-                    .transition(.scale.combined(with: .opacity))
-                    .zIndex(1)
-                }
-            }
         }
     }
 }
 
 #Preview {
-    MealListView(mealDataStore: MealDataStore.makePreview())
+    MealListView(
+        mealDataStore: MealDataStore.makePreview(),
+        showAddMealView: .constant(false)
+    )
 }
