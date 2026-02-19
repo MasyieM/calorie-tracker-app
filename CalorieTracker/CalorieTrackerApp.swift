@@ -12,7 +12,7 @@ struct CalorieTrackerApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainView(mealDataStore: MealDataStore())
+            MainView(vm: DataStore())
         }
     }
 }

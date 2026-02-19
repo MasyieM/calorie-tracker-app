@@ -1,5 +1,5 @@
 //
-//  MealDataStore.swift
+//  DataStore.swift
 //  CalorieTracker
 //
 //  Created by Cik Nur Maasyitah on 10/02/2026.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-class MealDataStore: ObservableObject {
+class DataStore: ObservableObject {
     
     @Published var mealEntries: [MealEntry] = []
     @Published var caloriesDailyLimit: Int = 0
@@ -49,8 +49,8 @@ class MealDataStore: ObservableObject {
         caloriesDailyLimit = calories
     }
     
-    static func makePreview() -> MealDataStore {
-        let sampleDatabase = MealDataStore()
+    static func makePreview() -> DataStore {
+        let sampleDatabase = DataStore()
         
         sampleDatabase.caloriesDailyLimit = 2000
         

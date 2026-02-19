@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     
-    @StateObject var mealDataStore: MealDataStore
+    @StateObject var vm: DataStore
     @State private var showCaloriesSetView: Bool = false
     @State private var showAddMealView: Bool = false
     @State private var mealToEditData: MealEntry? = nil
@@ -18,11 +18,11 @@ struct MainView: View {
         ZStack {
             VStack {
                 CalorieView(
-                    mealDataStore: mealDataStore,
+                    vm: vm,
                     showCaloriesSetView: $showCaloriesSetView
                 )
                 MealListView(
-                    mealDataStore: mealDataStore,
+                    vm: vm,
                     showAddMealView: $showAddMealView
                 )
             }
@@ -33,7 +33,7 @@ struct MainView: View {
                                         
                 ZStack {
                     CaloriesSetView(
-                        mealDataStore: mealDataStore,
+                        vm: vm,
                         isCaloriesSetViewPresented: $showCaloriesSetView
                     )
                     .frame(width: 300, height: 180)
@@ -50,7 +50,7 @@ struct MainView: View {
                             
                 ZStack {
                     AddMealView(
-                        mealDataStore: mealDataStore,
+                        vm: vm,
                         mealToEdit: mealToEditData,
                         isAddMealViewPresented: $showAddMealView
                     )
@@ -67,5 +67,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(mealDataStore: MealDataStore())
+    MainView(vm: DataStore())
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CalorieView: View {
     
-    @StateObject var mealDataStore: MealDataStore
+    @StateObject var vm: DataStore
     @Binding var showCaloriesSetView: Bool
     
     var totalCalories: Int = 1000
@@ -32,7 +32,7 @@ struct CalorieView: View {
                             .fontWeight(.thin)
                             .padding(.trailing)
                     }
-                    Text("\(calorieBalance) / \(mealDataStore.caloriesDailyLimit) cal")
+                    Text("\(calorieBalance) / \(vm.caloriesDailyLimit) cal")
                 }
                 .padding()
                 .background(Color.blue.opacity(0.5))
@@ -56,7 +56,7 @@ struct CalorieView: View {
 
 #Preview {
     CalorieView(
-        mealDataStore: MealDataStore.makePreview(),
+        vm: DataStore.makePreview(),
         showCaloriesSetView: .constant(false)
     )
 }

@@ -11,7 +11,7 @@ struct AddMealView: View {
     
     enum Field { case food, calories }
     
-    @StateObject var mealDataStore = MealDataStore()
+    @StateObject var vm = DataStore()
     @State var mealTimeSelection: MealTime = .none
     @State var foodInput: String = ""
     @State var caloriesInput: Int?
@@ -90,7 +90,7 @@ struct AddMealView: View {
                 else { return }
                 
                 if let existingMeal = mealToEdit {
-                    mealDataStore.editMealEntry(
+                    vm.editMealEntry(
                         id: existingMeal.id,
                         newFood: foodInput,
                         newCalories: calories,
@@ -98,7 +98,7 @@ struct AddMealView: View {
                     )
                 } else {
                     
-                    mealDataStore.addMealEntry(
+                    vm.addMealEntry(
                         food: foodInput,
                         calories: calories,
                         mealTime: mealTimeSelection
@@ -133,7 +133,7 @@ struct AddMealView: View {
 }
 #Preview {
     AddMealView(
-        mealDataStore: MealDataStore(),
+        vm: DataStore(),
         mealToEdit: nil,
         isAddMealViewPresented: .constant(true)
     )

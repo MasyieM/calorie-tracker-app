@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CaloriesSetView: View {
     
-    @StateObject var mealDataStore = MealDataStore()
+    @StateObject var vm = DataStore()
     @State var caloriesLimitInput: Int?
     @Binding var isCaloriesSetViewPresented: Bool
     
@@ -44,7 +44,7 @@ struct CaloriesSetView: View {
                 else { return }
                 
                 if let calories = caloriesLimitInput {
-                    mealDataStore.updateDailyCalories(calories: calories)
+                    vm.updateDailyCalories(calories: calories)
                 } else {
                     print("Calories input is invalid.")
                 }
