@@ -56,7 +56,7 @@ struct MealListView: View {
                             HStack {
                                 Text("Total Calories: ")
                                 Spacer()
-                                Text("total cal here")
+                                Text("\(vm.calculateTotalCaloriesPerMealTime(mealTime: mealTime)) cal")
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }

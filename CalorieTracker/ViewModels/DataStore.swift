@@ -12,8 +12,16 @@ import Combine
 class DataStore: ObservableObject {
     
     @Published var mealEntries: [MealEntry] = []
-    @Published var caloriesDailyLimit: Int = 0
-
+    @Published var caloriesDailyLimit: Int = 2000 //2000 is default, can be changed via the UI if desired
+    
+    var totalDailyCalories: Int {
+        mealEntries.reduce(0) { $0 + $1.calories }
+    }
+    
+    var dailyCaloriesBalance: Int {
+        caloriesDailyLimit - totalDailyCalories
+    }
+    
 //------------------------------------ MEAL CRUD ------------------------------------//
     
     func addMealEntry(food: String, calories: Int, mealTime: MealTime){
@@ -43,12 +51,21 @@ class DataStore: ObservableObject {
         }
     }
 
-//------------------------------------ CALORIES DATA FUNCTIONS ------------------------------------//
+//------------------------------------ UPDATE DAILY CALORIES FUNCTION ------------------------------------//
     
     func updateDailyCalories(calories: Int){
         caloriesDailyLimit = calories
     }
+
+//------------------------------------ TOTAL CALORIES CALCULATION ------------------------------------//
     
+    func calculateTotalCaloriesPerMealTime(mealTime: MealTime) -> Int {
+        let filteredMeals = mealEntries.filter { $0.mealTime == mealTime }
+        let total = filteredMeals.reduce(0) { $0 + $1.calories }
+        return total
+    }
+    
+//------------------------------------ PREVIEW SAMPLE DATA FUNCTION ------------------------------------//
     static func makePreview() -> DataStore {
         let sampleDatabase = DataStore()
         

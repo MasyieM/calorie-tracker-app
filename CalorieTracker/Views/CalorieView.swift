@@ -12,9 +12,6 @@ struct CalorieView: View {
     @StateObject var vm: DataStore
     @Binding var showCaloriesSetView: Bool
     
-    var totalCalories: Int = 1000
-    var calorieBalance: Int = 200
-    
     var body: some View {
         
         ZStack {
@@ -24,15 +21,18 @@ struct CalorieView: View {
                     .fontWeight(.heavy)
                 VStack {
                     HStack(alignment: .firstTextBaseline) {
-                        Text("\(totalCalories)")
+                        Text("\(vm.totalDailyCalories)")
                             .font(.largeTitle)
                             .fontWeight(.medium)
+                            .monospacedDigit()
+                            .frame(minWidth: 100, alignment: .trailing)
                         Text("cal")
                             .font(.subheadline)
                             .fontWeight(.thin)
                             .padding(.trailing)
                     }
-                    Text("\(calorieBalance) / \(vm.caloriesDailyLimit) cal")
+                    Text("\(vm.dailyCaloriesBalance) / \(vm.caloriesDailyLimit) cal")
+                        .monospacedDigit()
                 }
                 .padding()
                 .background(Color.blue.opacity(0.5))
