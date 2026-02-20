@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     
-    @StateObject var vm: DataStore
+    @StateObject var vm = DataStore()
     @State private var showCaloriesSetView: Bool = false
     @State private var showAddMealView: Bool = false
     @State private var mealToEditData: MealEntry? = nil
@@ -23,7 +23,8 @@ struct MainView: View {
                 )
                 MealListView(
                     vm: vm,
-                    showAddMealView: $showAddMealView
+                    showAddMealView: $showAddMealView,
+                    mealToEditData: $mealToEditData
                 )
             }
             .padding(.top, 30)

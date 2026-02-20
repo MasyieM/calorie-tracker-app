@@ -31,6 +31,8 @@ struct CalorieView: View {
                             .fontWeight(.thin)
                             .padding(.trailing)
                     }
+                    Text("Balance / Daily Goal")
+                        .fontWeight(.semibold)
                     Text("\(vm.dailyCaloriesBalance) / \(vm.caloriesDailyLimit) cal")
                         .monospacedDigit()
                 }

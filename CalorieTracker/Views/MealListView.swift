@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct MealListView: View {
-    @StateObject var vm =  DataStore()
+    @StateObject var vm: DataStore
     @Binding var showAddMealView: Bool
-    @State private var mealToEditData: MealEntry? = nil
+    @Binding var mealToEditData: MealEntry?
     
     var body: some View {
         ZStack (alignment: .top) {
@@ -90,6 +90,6 @@ struct MealListView: View {
 #Preview {
     MealListView(
         vm: DataStore.makePreview(),
-        showAddMealView: .constant(false)
+        showAddMealView: .constant(false), mealToEditData: .constant(nil)
     )
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CaloriesSetView: View {
     
-    @StateObject var vm = DataStore()
+    @StateObject var vm: DataStore
     @State var caloriesLimitInput: Int?
     @Binding var isCaloriesSetViewPresented: Bool
     
@@ -30,6 +30,7 @@ struct CaloriesSetView: View {
                 .bold()
                 .font(.title3)
             TextField("0", value: $caloriesLimitInput, formatter: AppFormatters.integer)
+                .keyboardType(.numberPad)
                 .multilineTextAlignment(.center)
                 .padding(10)
                 .background(Color.gray.opacity(0.2))
@@ -66,5 +67,8 @@ struct CaloriesSetView: View {
 }
 
 #Preview {
-    CaloriesSetView(isCaloriesSetViewPresented: .constant(true))
+    CaloriesSetView(
+        vm: DataStore(),
+        isCaloriesSetViewPresented: .constant(true)
+    )
 }

@@ -11,7 +11,7 @@ struct AddMealView: View {
     
     enum Field { case food, calories }
     
-    @StateObject var vm = DataStore()
+    @StateObject var vm: DataStore
     @State var mealTimeSelection: MealTime = .none
     @State var foodInput: String = ""
     @State var caloriesInput: Int?
