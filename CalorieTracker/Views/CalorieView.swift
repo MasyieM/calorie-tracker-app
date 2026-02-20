@@ -37,7 +37,10 @@ struct CalorieView: View {
                         .monospacedDigit()
                 }
                 .padding()
-                .background(vm.dynamicBackgroundColor(for: vm.totalDailyCalories, dailyLimit: vm.caloriesDailyLimit))
+                .background(
+                    vm.dynamicBackgroundColor(for: vm.totalDailyCalories, dailyLimit: vm.caloriesDailyLimit)
+                        .opacity(0.6)
+                )
                 .cornerRadius(15)
                 .overlay(
                     Button {

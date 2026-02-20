@@ -19,6 +19,7 @@ enum MealTime: String, CaseIterable, Identifiable  { //String; each case is assi
 
 struct MealEntry: Identifiable {
     var id: UUID = UUID() //Automatically assigns a unique ID to each meal entry
+    var date: Date = Date() //Automatically assigns the current date to the entry
     var food: String
     var calories: Int
     var mealTime: MealTime
