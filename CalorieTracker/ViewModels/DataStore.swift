@@ -64,8 +64,31 @@ class DataStore: ObservableObject {
         let total = filteredMeals.reduce(0) { $0 + $1.calories }
         return total
     }
+
+//------------------------------------ CALORIES CARD BACKGROUND COLOR ------------------------------------//
+    
+    func dynamicBackgroundColor(for totalCalories: Int, dailyLimit: Int) -> Color {
+        let ratio = min(max(Double(totalCalories) / Double(dailyLimit), 0), 1)
+        
+        if ratio < 0.5 {
+            let progress = ratio / 0.5
+            return Color(
+                red: 0,
+                green: progress,
+                blue: 1 - progress
+            )
+        } else {
+            let progress = (ratio - 0.5) / 0.5
+            return Color (
+                red: progress,
+                green: 1 - progress,
+                blue: 0
+            )
+        }
+    }
     
 //------------------------------------ PREVIEW SAMPLE DATA FUNCTION ------------------------------------//
+    
     static func makePreview() -> DataStore {
         let sampleDatabase = DataStore()
         
