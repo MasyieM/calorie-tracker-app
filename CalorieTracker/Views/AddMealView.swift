@@ -11,7 +11,7 @@ struct AddMealView: View {
     
     enum Field { case food, calories }
     
-    @StateObject var vm: DataStore
+    @EnvironmentObject var vm: DataStore
     @State var mealTimeSelection: MealTime = .none
     @State var foodInput: String = ""
     @State var caloriesInput: Int?
@@ -131,10 +131,14 @@ struct AddMealView: View {
         }
     }
 }
+
 #Preview {
+    
+    let vm = DataStore()
+    
     AddMealView(
-        vm: DataStore(),
         mealToEdit: nil,
         isAddMealViewPresented: .constant(true)
     )
+    .environmentObject(vm)
 }

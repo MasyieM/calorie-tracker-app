@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MealListView: View {
-    @StateObject var vm: DataStore
+    @EnvironmentObject var vm: DataStore
     @Binding var showAddMealView: Bool
     @Binding var mealToEditData: MealEntry?
     
@@ -17,7 +17,7 @@ struct MealListView: View {
 //-------------------------------- LIST --------------------------------//
             List {
                 ForEach(MealTime.allCases.filter { $0 != .none }) { mealTime in
-                    let mealsForTime = vm.mealEntries.filter { $0.mealTime == mealTime }
+                    let mealsForTime = vm.mealEntries.filter { $0.mealTime == mealTime.rawValue }
                     
                     Section(header: Text(mealTime.rawValue.capitalized)) {
                         if mealsForTime.isEmpty{
@@ -88,8 +88,11 @@ struct MealListView: View {
 }
 
 #Preview {
+    
+    let vm = DataStore()
+    
     MealListView(
-        vm: DataStore.makePreview(),
         showAddMealView: .constant(false), mealToEditData: .constant(nil)
     )
+    .environmentObject(vm)
 }

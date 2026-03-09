@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CalorieView: View {
     
-    @StateObject var vm: DataStore
+    @EnvironmentObject var vm: DataStore
     @Binding var showCaloriesSetView: Bool
     
     var body: some View {
@@ -60,8 +60,11 @@ struct CalorieView: View {
 }
 
 #Preview {
+    
+    let vm = DataStore()
+    
     CalorieView(
-        vm: DataStore.makePreview(),
         showCaloriesSetView: .constant(false)
     )
+    .environmentObject(vm)
 }

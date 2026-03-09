@@ -10,9 +10,12 @@ import SwiftUI
 @main
 struct CalorieTrackerApp: App {
     
+    @StateObject var vm = DataStore()
+    
     var body: some Scene {
         WindowGroup {
-            MainView(vm: DataStore())
+            MainView()
+                .environmentObject(vm)
         }
     }
 }

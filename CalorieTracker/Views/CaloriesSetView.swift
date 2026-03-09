@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CaloriesSetView: View {
     
-    @StateObject var vm: DataStore
+    @EnvironmentObject var vm: DataStore
     @State var caloriesLimitInput: Int?
     @Binding var isCaloriesSetViewPresented: Bool
     
@@ -67,8 +67,11 @@ struct CaloriesSetView: View {
 }
 
 #Preview {
+    
+    let vm = DataStore()
+    
     CaloriesSetView(
-        vm: DataStore(),
         isCaloriesSetViewPresented: .constant(true)
     )
+    .environmentObject(vm)
 }
