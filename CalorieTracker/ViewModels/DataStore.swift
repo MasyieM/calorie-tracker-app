@@ -24,6 +24,8 @@ class DataStore: ObservableObject {
                 print("Error - Unable to load core data \(error)")
             } else {
                 print("Success - Core data loaded successfully!")
+                
+                self.fetchData()
             }
         }
     }
@@ -34,9 +36,20 @@ class DataStore: ObservableObject {
         
         do {
             mealEntries = try container.viewContext.fetch(request)
-        } catch let error {
+        } catch {
             print("Fetch data failed. Error: \(error)")
         }
+    }
+    
+    //saves data to Core Data when it's called
+    func saveData() {
+        
+        do {
+            try container.viewContext.save()
+        } catch {
+            print("Save data failed. Error: \(error)")
+        }
+        
     }
     
     var totalDailyCalories: Int {
@@ -56,11 +69,8 @@ class DataStore: ObservableObject {
         mealEntry.calories = Int16(calories)
         mealEntry.mealTime = mealTime.rawValue
         
-        do {
-            try container.viewContext.save()
-        } catch {
-            print("Add meal entry failed!")
-        }
+        saveData()
+        fetchData()
     }
     
     func getMealEntry(for mealTime: MealTime) -> [MealEntryData]{
@@ -68,34 +78,26 @@ class DataStore: ObservableObject {
     }
     
     func editMealEntry(id: UUID, newFood: String, newCalories: Int, newMealTime: MealTime){
-        if let index = mealEntries.firstIndex(where: { $0.id == id }) {
-            mealEntries[index].food = newFood
-            mealEntries[index].calories = Int16(newCalories)
-            mealEntries[index].mealTime = newMealTime.rawValue
-        } else {
+        guard let object = mealEntries.first(where: { $0.id == id }) else {
             print("Error: Entry not found!")
+            return
         }
-        
-        do {
-            try container.viewContext.save()
-        } catch {
-            print("Edit meal entry failed!")
-        }
+        object.food = newFood
+        object.calories = Int16(newCalories)
+        object.mealTime = newMealTime.rawValue
+            
+        saveData()
+        fetchData()
     }
     
     func deleteMealEntry(id: UUID){
-        if let index = mealEntries.firstIndex(where: { $0.id == id }) {
-            let object = mealEntries[index]
+        if let object = mealEntries.first(where: { $0.id == id }) {
             container.viewContext.delete(object)
-            mealEntries.remove(at: index)
+            
+            saveData()
+            fetchData()
         } else {
             print("Error: Entry not found!")
-        }
-        
-        do {
-            try container.viewContext.save()
-        } catch {
-            print("Error: Delete meal entry failed!")
         }
     }
 
@@ -150,13 +152,13 @@ class DataStore: ObservableObject {
             meal1.calories = 250
             meal1.mealTime = MealTime.breakfast.rawValue
             
-            let meal2 = MealEntryData(context: context)
+        let meal2 = MealEntryData(context: context)
             meal2.id = UUID()
             meal2.food = "Chicken Salad"
             meal2.calories = 400
             meal2.mealTime = MealTime.lunch.rawValue
             
-            let meal3 = MealEntryData(context: context)
+        let meal3 = MealEntryData(context: context)
             meal3.id = UUID()
             meal3.food = "Apple"
             meal3.calories = 80
